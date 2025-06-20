@@ -1,39 +1,21 @@
 package mcp.ai_service.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mcp.ai_service.tool.ToolConfig;
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
+import mcp.ai_service.service.chat.ChatSessionManager;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class OllamaServiceImplementation implements AIService {
 
-    /**
-     * Context or instruction to the assistant on how it should behave during the conversation.
-     */
-    @Value("${chat.context.user-info}")
-    private String chatContextUserInfo;
-
-    private ChatClient chatClient;
-
-    @Bean
-    CommandLineRunner runner(ChatClient.Builder chatClientBuilder) {
-        return args -> this.chatClient = chatClientBuilder.build();
-    }
+    private final ChatSessionManager sessionManager;
 
     @Override
-    public String askModel(String question) {
-        var content = chatClient.prompt()
-                .system(chatContextUserInfo) // set the system prompt
-                .user(question)
-                .functions(ToolConfig.USER_TOOL)
-                .call()
-                .content();
-        log.debug(content);
-        return content;
+    public String askModel(String question, String userId) {
+        String response = sessionManager.getAnswer(question, userId);
+        log.debug("Model response: {}", response);
+        return response;
     }
 }
