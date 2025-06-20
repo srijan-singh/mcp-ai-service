@@ -8,6 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import mcp.ai_service.service.AIService;
 
+/**
+ * Controller for the AI service
+ * 
+ * @see AIService
+ * 
+ * @author Srijan Singh
+ */
 @Slf4j
 @RestController
 @RequestMapping("/ai")
@@ -16,6 +23,12 @@ public class AIController {
 
     private final AIService aiService;
 
+    /**
+     * Get the answer from the AI model
+     * @param question requested by user
+     * @param userId {@link UserData#getUserID()}
+     * @return answer from the AI model
+     */
     @RequestMapping("/ask")
     public String ask(@RequestParam String question, @RequestParam String userId) {
         log.debug("Question: {} from userId {}", question, userId);

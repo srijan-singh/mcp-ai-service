@@ -12,6 +12,12 @@ import org.springframework.ai.chat.messages.UserMessage;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Manages the chat history via {@link ChatMemory} and keeps track of the
+ * message count and conversation id
+ * 
+ * @author Srijan Singh
+ */
 @Slf4j
 @Getter
 @AllArgsConstructor
@@ -21,6 +27,10 @@ public class ChatMemoryManager {
     private final String conversationId;
     private final ChatMemory chatMemory;
 
+    /**
+     * Set the system prompt for the model at initialization
+     * @param context prompt to set preface
+     */
     public void addSystemMessage(String context) {
         verifyMessage(context);
         chatMemory.add(conversationId, new SystemMessage(context));
@@ -28,6 +38,10 @@ public class ChatMemoryManager {
         logMessageCount("Context has been set as %s".formatted(context));
     }
 
+    /**
+     * Add user message
+     * @param userMessage request by user
+     */
     public void addUserMessage(String userMessage) {
         verifyMessage(userMessage);
         chatMemory.add(conversationId, new UserMessage(userMessage));
@@ -35,6 +49,10 @@ public class ChatMemoryManager {
         logMessageCount("User: %s".formatted(userMessage));
     }
 
+    /**
+     * Add AI/Assistant message
+     * @param assistantMessage response by AI
+     */
     public void addAssistantMessage(String assistantMessage) {
         verifyMessage(assistantMessage);
         chatMemory.add(conversationId, new AssistantMessage(assistantMessage));
@@ -42,6 +60,10 @@ public class ChatMemoryManager {
         logMessageCount("Assistant Message: %s".formatted(assistantMessage));
     }
 
+    /**
+     * Get all messages
+     * @return messages with prompt, userMessage and assistantMessage
+     */
     public List<Message> getMessages() {
         return chatMemory.get(conversationId, messageCount.get());
     }
