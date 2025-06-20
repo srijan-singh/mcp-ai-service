@@ -4,6 +4,11 @@ import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.stereotype.Component;
 
+/**
+ * Factory for creating ChatMemory instances
+ * 
+ * @author Srijan Singh
+ */
 @Component
 public class ChatMemoryFactory {
 
@@ -11,5 +16,3 @@ public class ChatMemoryFactory {
         return new InMemoryChatMemory();
     }
 }
-
-
