@@ -1,22 +1,20 @@
 package mcp.ai_service.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mcp.ai_service.service.chat.ChatSessionManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class OllamaServiceImplementation implements AIService {
 
-    private static final String DEFAULT_USER_ID = "default-user";
-
-    @Autowired
-    private ChatSessionManager sessionManager;
+    private final ChatSessionManager sessionManager;
 
     @Override
-    public String askModel(String question) {
-        String response = sessionManager.getAnswer(question, DEFAULT_USER_ID);
+    public String askModel(String question, String userId) {
+        String response = sessionManager.getAnswer(question, userId);
         log.debug("Model response: {}", response);
         return response;
     }
