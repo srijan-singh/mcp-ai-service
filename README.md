@@ -15,3 +15,8 @@ An AI service implementing the Model Context Protocol (MCP) to facilitate seamle
 # Services used as Tools
 
 - [MCP User Service](https://github.com/srijan-singh/mcp-user-service/)
+
+## License
+
+mcp‑ai‑service is licensed under the [GNU General Public License v3](LICENSE).
+
