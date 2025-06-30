@@ -12,28 +12,18 @@
  * GNU General Public License for more details:
  *     https://www.gnu.org/licenses/gpl-3.0.txt
  */
-package mcp.ai_service.tool;
+package mcp.ai_service.service;
 
-import java.util.function.Function;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Description;
-import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class ToolConfig {
-
-    public static final String USER_TOOL = "userTool";
+public class OllamaConfig {
 
     @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
-    @Bean
-    @Description("Get Context about user details via userId")
-    public Function<UserTool.UserInfoRequest, UserTool.UserInfoResponse> userTool() {
-        return new UserTool();
+    public ChatClient chatClient(OllamaChatModel chatModel) {
+        return ChatClient.builder(chatModel).build();
     }
 }
-

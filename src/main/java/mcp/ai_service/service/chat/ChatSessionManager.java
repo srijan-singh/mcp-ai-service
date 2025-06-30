@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import mcp.ai_service.pojo.UserData;
 import mcp.ai_service.tool.ToolConfig;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -51,7 +52,8 @@ public class ChatSessionManager {
             // Build the prompt
             var content = chatClient.prompt()
                     .messages(memoryManager.getMessages())
-                    .functions(ToolConfig.USER_TOOL)
+                    .tools(ToolConfig.USER_TOOL)
+                    .advisors(new SimpleLoggerAdvisor()) // prompt logs
                     .call()
                     .content();
             // Add assistant message to chat

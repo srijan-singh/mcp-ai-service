@@ -28,7 +28,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Slf4j
 public class UserTool implements Function<UserTool.UserInfoRequest, UserTool.UserInfoResponse> {
 
-    public record UserInfoRequest (String userName) {}
+    public record UserInfoRequest (String userId) {}
     public record UserInfoResponse (UserData userData) {}
 
     @Autowired
@@ -38,10 +38,10 @@ public class UserTool implements Function<UserTool.UserInfoRequest, UserTool.Use
     private RestTemplate restTemplate;
 
     @Override
-    @Tool(name = "Get User Info", description = "Fetch user info from user-tool-service by userName")
+    @Tool(name = "Get User Info", description = "Fetch user info from user-tool-service by userId")
     public UserInfoResponse apply(UserInfoRequest userInfoRequest) {
         String url = UriComponentsBuilder.fromUriString(userService.getUserInfoAPI())
-                .queryParam("userName", userInfoRequest.userName)
+                .queryParam("userId", userInfoRequest.userId)
                 .build()
                 .toUriString();
         log.debug("Calling URL: %s".formatted(url));
